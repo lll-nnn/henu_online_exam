@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="include/header::head"></div>
+
+<div th:replace="include/teacher_navbar::navbar(${loginTeacher})"></div>
+
+<div class="container">
+	<h1>
+		<img th:src="@{/static/img/exam-teacher.png}" /> 上机考试管理
+	</h1>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div th:if="${application.exam} != null" class="span12 exam-info">
+				<p class="exam-info">
+					<a class="btn btn-primary" th:href="@{/teacher/manage/summary}"><i class="icon-share-alt"></i> 返回</a>
+				</p>
+				<h4>已提交学生数量：<span th:text="${sublist.size()}"></span></h4>
+				<p>
+                <span th:each="submission : ${sublist}">
+                    <span class="span2">
+                        <span th:text="${submission.number}"></span>(<span th:text="${submission.name}"></span>)&nbsp;
+                    </span>
+                </span>
+				</p>
+			</div>
+			<div th:if="${application.exam} == null" class="span12 exam-info">
+				<p class="exam-info">
+					<a class="btn btn-primary" th:href="@{/teacher/manage/summary}"><i class="icon-share-alt"></i> 返回</a>
+				</p>
+				<h4><span>没有考试正在进行~</span></h4>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div th:replace="include/teacher_footer::footer"></div>

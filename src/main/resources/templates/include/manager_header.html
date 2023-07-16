@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="navbar(loginManager)">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<span class="brand"><strong>上机考试系统</strong></span>
+
+				<ul class="nav navbar-nav">
+					<li><a th:href="@{/admin}"><i class="icon-home icon-white"></i>首页</a></li>
+					<li><a th:href="@{/admin/teacher}"><i class="icon-user icon-white"></i>教师管理</a></li>
+					<li><a th:href="@{/admin/exam}"><i class="icon-remove-circle icon-white"></i>考试清理</a></li>
+					<li><a th:href="@{/admin/config}"><i class="icon-wrench icon-white"></i>系统配置</a></li>
+				</ul>
+				<ul class="nav navbar-nav pull-right">
+					<li><span class="brand"><small th:text="${loginManager.name}"></small></span></li>
+					<li><a href="#" data-toggle="modal"
+		data-target=".bs-example-modal-sm"><i class="icon-pencil icon-white"></i>修改口令</a></li>
+					<li><a th:href="@{/admin/logout}"><i class="icon-share icon-white"></i>退出</a></li>
+				</ul>
+
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade bs-example-modal-sm span3" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">修改口令</h4>
+				</div>
+				<div class="modal-body">
+				<div class="exam-form">
+					<p>
+						<input type="password" id="oldPass" name="oldpass" placeholder="原口令" style="width:100%"/>
+						<br/>
+						<input type="password" id="newPass1" name="newpass1" placeholder="新口令" style="width:100%"/>
+						<br/>
+						<input type="password" id="newPass2" name="newpass2" placeholder="重输新口令" style="width:100%"/>
+						<br/>
+						<button type="submit" class="btn btn-primary" id="managerChangePass" style="width:100%">修改</button>
+					</p>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>

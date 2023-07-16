@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="include/header::head"></div>
+
+<div th:replace="include/teacher_navbar::navbar(${loginTeacher})"></div>
+
+<div class="container">
+	<h1>
+		<img th:src="@{/static/img/exam-teacher.png}" /> 上机考试管理
+	</h1>
+
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div th:if="${application.exam != null}" class="span12 exam-info">
+				<h4><strong th:text="${application.exam.name}">Exam Name</strong> 进行情况：</h4>
+				<p>参加考试学生总数: <span th:text="${total}">0</span></p>
+				<p>
+					已登录学生数量:
+					<a class="btn-primary" th:href="@{/teacher/manage/showbind}">
+						<i class="icon-search icon-white"></i>
+						<span th:text="${loginStudents}">0</span>
+					</a>，
+					未登录学生数量:
+					<a class="btn-primary" th:href="@{/teacher/manage/showunbind}">
+						<i class="icon-search icon-white"></i>
+						<span th:text="${unloginStudents}">0</span>
+					</a>
+				</p>
+				<p>
+					已登录学生中，提交文件学生数量:
+					<a class="btn-primary" th:href="@{/teacher/manage/showsubmit}">
+						<i class="icon-search icon-white"></i>
+						<span th:text="${submitted}">0</span>
+					</a>，
+					未提交文件学生数量:
+					<a class="btn-primary" th:href="@{/teacher/manage/showunsubmit}">
+						<i class="icon-search icon-white"></i>
+						<span th:text="${unsubmitted}">0</span>
+					</a>
+				</p>
+			</div>
+			<div th:if="${application.exam == null}" class="span12 exam-info">
+				<h4><strong>没有考试正在进行~</strong></h4>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div th:replace="include/teacher_footer::footer"></div>

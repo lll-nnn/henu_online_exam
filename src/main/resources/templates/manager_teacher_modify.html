@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="include/header::head"></div>
+
+<div th:replace="include/manager_header::navbar(${loginManager})"></div>
+
+<div class="container">
+	<h1>
+		<img th:src="@{/static/img/exam-admin.png}" /> 系统管理
+	</h1>
+	<div th:if="${!application.init}" class="exam-alert">没有设置管理员帐号，默认管理员帐号存在安全风险，请尽快处理！</div>
+	<br />
+<div class="exam-form form-horizontal">
+	<h4>修改教师帐号</h4>
+	<input type="hidden" id="id" name="id" th:value="${id}">
+	<div class="control-group">
+		<label class="control-label" for="name">用户名</label>
+		<div class="controls">
+			<input type="text" id="name" name="name" th:value="${name}" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="pass">密码</label>
+		<div class="controls">
+			<input type="text" id="pass" name="pass" placeholder="重置密码" />
+			<span>如不需要重新设定密码请留空</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="fullname">全名</label>
+		<div class="controls">
+			<input type="text" id="fullname" name="fullname" th:value="${fullname}" />
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+				<label class="checkbox">
+					<input type="checkbox" id="isAdmin" name="admin" value="true" th:checked="${admin}" />
+					管理员&nbsp;
+				</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" id="teacherModify" class="btn btn-primary">修改</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div th:replace="include/manager_footer::footer"></div>
+

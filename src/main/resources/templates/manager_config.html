@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="include/header::head"></div>
+
+<div th:replace="include/manager_header::navbar(${loginManager})"></div>
+
+<div class="container">
+	<h1>
+		<img th:src="@{/static/img/exam-admin.png}" /> 系统管理
+	</h1>
+	<div th:if="${!application.init}" class="exam-alert">没有设置管理员帐号，默认管理员帐号存在安全风险，请尽快处理！</div>
+	<br />
+	<div class="exam-form form-horizontal">
+		<h4>修改系统配置</h4>
+		<div class="control-group">
+			<label class="control-label" for="interval">后台任务间隔时间</label>
+			<div class="controls">
+				<input type="text" id="interval" name="interval" th:value="${config.interval}"/>
+				<p th:text="${config.interval_desc}" class="help-block"></p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="pagesize">分页查询记录条数</label>
+			<div class="controls">
+				<input type="text" id="pagesize" name="pagesize" th:value="${config.pagesize}"/>
+				<p class="help-block" th:text="${config.pagesize_desc}"></p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="timegap">手动开启考试时间阈值</label>
+			<div class="controls">
+				<input type="text" id="timegap" name="timegap" th:value="${config.timegap}"/>
+				<p class="help-block" th:text="${config.timegap_desc}"></p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="minfilesize">上传文件字节数下限</label>
+			<div class="controls">
+				<input type="text" id="minfilesize" name="minfilesize" th:value="${config.minfilesize}"/>
+				<p class="help-block" th:text="${config.minfilesize_desc}"></p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="maxfilesize">上传文件字节数上限</label>
+			<div class="controls">
+				<input type="text" id="maxfilesize" name="maxfilesize" th:value="${config.maxfilesize}" />
+				<p class="help-block" th:text="${config.maxfilesize_desc}"></p>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<label class="checkbox">
+					<input type="checkbox" id="candelete" name="candelete" value="true" th:checked="${config.candelete}" />
+					教师可以清理和删除考试
+				</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<button id="configUpdate" class="btn btn-primary">修改</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div th:replace="include/manager_footer::footer"></div>

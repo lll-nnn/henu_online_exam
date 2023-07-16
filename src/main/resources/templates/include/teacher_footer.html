@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<footer th:fragment="footer">
+		<!-- placed at the end of the document so the pages load faster -->
+		<script th:src="@{/static/js/jquery.min.js}"></script>
+		<script th:src="@{/static/js/bootstrap.min.js}"></script>
+		<script th:src="@{/static/js/jquery.form.min.js}"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+		<script th:src="@{/static/js/bootstrap-datetimepicker.js}"></script>
+		<script th:src="@{/static/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+
+		<script>
+			//修改密码
+			$('#changePass').on('click', function (){
+				var oldPass = $('#oldPass').val();
+				var newPass = $('#newPass1').val();
+				var rePass = $('#newPass2').val();
+				if(!oldPass || !newPass || !rePass){
+					toastr.error('表单不能为空');
+					return false;
+				}
+				if(newPass!== rePass){
+					toastr.error('两次密码不一致')
+					return false;
+				}
+				axios.post('/teacher/changePass',{
+					'oldPass':md5(oldPass),
+					'newPass':md5(newPass)
+				}).then(res=>{
+					if(res.data.success){
+						toastr.info(res.data.msg);
+						location.href = "/teacher/logout"
+                    }else{
+						toastr.error(res.data.msg);
+					}
+				})
+			});
+			//添加考试
+			$('#addExam').on('click', function (){
+				var name = $('#examName').val();
+				var time = $('#datetimepicker').datetimepicker('getDate');
+				var isAutoStart = $('#isAutoStart').is(':checked');
+                if(!name|| !time || isAutoStart == null){
+					toastr.error("字段不能为空");
+					return false;
+				}
+                axios.post('/teacher/addExam',{
+					'name':name,
+					'time':time,
+                    'isAutostart':isAutoStart
+				}).then(res=>{
+					if(res.data.success){
+						toastr.info(res.data.msg);
+						location.reload();
+					}else{
+						toastr.error(res.data.msg);
+					}
+				})
+			});
+			//更新考试
+			$('#examUpdate').on('click', function (){
+				var id = $('#examId').val();
+				var name = $('#examName').val();
+				var time = $('#datetimepicker2').datetimepicker('getDate');
+				var isAutoStart = $('#isAutoStart2').is(':checked');
+				console.log("123123"+isAutoStart);
+				if(!id||!name ||!time || isAutoStart==null){
+					toastr.error("字段不能为空");
+					return false;
+				}
+				axios.post('/teacher/updateExam',{
+					'id':id,
+					'name':name,
+					'time':time,
+					'isAutostart':isAutoStart
+				}).then(res=>{
+					if(res.data.success){
+						toastr.info(res.data.msg)
+						location.reload();
+					}else{
+						toastr.error(res.data.msg)
+					}
+				})
+			});
+			//试卷上传
+			$('#uploadPaper').on('click', function (){
+				$('#upForm').ajaxSubmit(function (res){
+					if(res.success){
+						toastr.success(res.msg);
+						location.reload()
+					}else{
+						toastr.error(res.msg);
+					}
+				})
+				return false;
+			});
+			//试卷更新
+			$('#updatePaper').on('click', function () {
+				$('#upForm').ajaxSubmit(function (res){
+					if(res.success){
+						toastr.success(res.msg);
+						location.reload()
+					}else{
+						toastr.error(res.msg);
+					}
+				})
+				return false;
+			});
+			//添加单个学生
+			$('#addStudent').on('click', function () {
+				$('#addStudentForm').ajaxSubmit(function (res){
+					if (res.success){
+						location.reload();
+					}else{
+						toastr.error(res.msg);
+					}
+				})
+				return false;
+			});
+			//添加单个学生
+			$('#impStu').on('click', function () {
+				$('#stuUpForm').ajaxSubmit(function (res){
+					if (res.success){
+						location.reload();
+					}else{
+						toastr.error(res.msg);
+					}
+				})
+				return false;
+			})
+		</script>
+
+	</footer>
+</html>

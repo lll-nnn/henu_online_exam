@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="footer">
+
+<!--	<div th:if="${application.noticeList} != null">-->
+<!--		<div>-->
+<!--			<th:block th:each="notify : ${application.noticeList}">-->
+<!--				<div>-->
+<!--					<p class="exam-notify" th:text="${notify}" /><br>-->
+<!--				</div>-->
+<!--			</th:block>-->
+<!--		</div>-->
+<!--	</div>-->
+
+
+	<script th:src="@{/static/js/jquery.min.js}"></script>
+	<script th:src="@{/static/js/bootstrap.min.js}"></script>
+	<script th:src="@{/static/js/jquery.form.min.js}"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+	<script>
+		let socket = new WebSocket("ws://123.56.165.61:8081/websocket")
+		socket.onerror = err => {
+			console.log(err)
+		}
+		socket.onmessage= event => {
+			toastr.info("有消息变化，请前往首页查看");
+		}
+
+
+		$('#upload').on('click', function () {
+			$('#upForm').ajaxSubmit(function (res){
+				if (res.success){
+					location.reload();
+				}else{
+					toastr.error(res.msg);
+				}
+			})
+			return false;
+		});
+		$('#upload2').on('click', function () {
+			$('#upForm2').ajaxSubmit(function (res){
+				if (res.success){
+					location.reload();
+				}else{
+					toastr.error(res.msg);
+				}
+			})
+			return false;
+		})
+	</script>
+</footer>
+</html>

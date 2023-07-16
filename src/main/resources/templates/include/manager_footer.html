@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<footer th:fragment="footer">
+		<!-- placed at the end of the document so the pages load faster -->
+		<script th:src="@{/static/js/jquery.min.js}"></script>
+		<script th:src="@{/static/js/bootstrap.min.js}"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/blueimp-md5/2.19.0/js/md5.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+		<script>
+			//修改密码
+			$('#managerChangePass').on('click', function (){
+				var oldPass = $('#oldPass').val();
+				var newPass1 = $('#newPass1').val();
+				var newPass2 = $('#newPass2').val();
+				if (!oldPass){
+					toastr.error("旧密码不能为空！");
+					return false;
+				}
+				if (!newPass1){
+					toastr.error("新密码不能为空！");
+					return false;
+				}
+				if (!newPass2){
+					toastr.error("请再次输入新密码！");
+				}
+				if (newPass1 !== newPass2){
+					toastr.error("两次密码不一致！");
+					return false;
+				}
+				axios.post("/admin/teacher/changePass",{
+					'oldPass':md5(oldPass),
+					'newPass1':md5(newPass1),
+					'newPass2':md5(newPass2),
+				}).then(res=>{
+					if (!res.data.success){
+						toastr.error(res.data.msg);
+					}else{
+						toastr.info(res.data.msg);
+						location.reload();
+					}
+				})
+			});
+			//添加教师
+			$('#addTeacher').on('click', function (){
+				var name = $('#teacherName').val();
+				var pass = $('#teacherPass').val();
+				var fullName = $('#teacherFullName').val();
+				var isAdmin = $('#isAdmin').val();
+				if (!name){
+					toastr.error("请输入姓名");
+					return false;
+				}
+				if (!pass){
+					toastr.error("请输入默认密码");
+					return false;
+				}
+				if (!fullName){
+					toastr.error("请输入全名");
+					return false;
+				}
+				axios.post('/admin/teacher/add', {
+					'name': name,
+					'password':md5(pass),
+					'fullName':fullName,
+					'isAdmin':isAdmin
+				}).then(res=>{
+					if (!res.data.success){
+						toastr.error(res.data.msg);
+						return false;
+					}else{
+						toastr.info(res.data.msg);
+						location.reload();
+					}
+				})
+			})
+			//修改教师信息
+			$('#teacherModify').on('click', function (){
+				var id = $('#id').val();
+				var name = $('#name').val();
+				var pass = $('#pass').val();
+				var fullName = $('#fullname').val();
+				var isAdmin = $('#isAdmin').val();
+				if (!name){
+					toastr.error("昵称不能为空");
+					return false;
+				}
+				if (!fullName){
+					toastr.error("全名不能为空");
+					return false;
+				}
+				axios.post('/admin/teacher/update',{
+					'id':id,
+					'name':name,
+					'password':md5(pass),
+					'fullName':fullName,
+					'isAdmin':isAdmin
+				}, res=>{
+					if (!res.data.success){
+						toastr.error(res.data.msg);
+						return false;
+					}else{
+						toastr.info(res.data.msg);
+						location.reload();
+					}
+				})
+			});
+			$('#deleteTeacher').on('click', function (message){
+				if (confirm("是否删除？", "确认删除", "取消")){
+					return true;
+				}else{
+					toastr.info("操作取消");
+					return false;
+				}
+			});
+			$('#configUpdate').on('click', function (){
+				var interval = $('#interval').val();
+				var pageSize = $('#pagesize').val();
+				var timeGap = $('#timegap').val();
+				var miniFileSize = $('#minfilesize').val();
+				var canDelete = $('#candelete').val();
+				var maxFileSize = $('#maxfilesize').val();
+				if (!interval || !pageSize || !miniFileSize || !maxFileSize || !timeGap){
+					toastr.error("字段不能为空")
+					return false;
+				}
+				axios.post('/admin/config/update', {
+					'interval':interval,
+					'pagesize':pageSize,
+					'timegap':timeGap,
+					'minfilesize':miniFileSize,
+					'maxfilesize':maxFileSize,
+					'candelete':canDelete
+				}).then(res=>{
+					if (res.data.success){
+						toastr.success(res.data.msg);
+						location.reload();
+					}else{
+						toastr.error(res.data.msg);
+					}
+				})
+			})
+		</script>
+
+	</footer>
+</html>

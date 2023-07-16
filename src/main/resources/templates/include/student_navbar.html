@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="navbar(loginStudent)">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <span class="brand"><strong>上机考试系统</strong></span>
+                <ul class="nav navbar-nav">
+                    <li><a th:href="@{/student}"><i class="icon-home icon-white"></i>首页</a></li>
+                    <li><a th:href="@{/student/exam/listdir}"><i class="icon-eye-open icon-white"></i>查看提交</a></li>
+                </ul>
+                <ul class="nav navbar-nav pull-right">
+                    <li><span class="brand"><small th:text="'欢迎，' + ${loginStudent.name}"></small></span></li>
+                </ul>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+</header>
+</html>
